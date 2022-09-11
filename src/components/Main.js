@@ -51,9 +51,9 @@ function Main(props) {
 
       //с помощью JSX итерации добавим карточки на страницу
       <section className="cards">
-        {cards.map((cardItem) =>
+        {cards.map((cardItem) => (
           <Card key={cardItem._id} card={cardItem} onCardClick={props.onCardClick}/>
-        )}
+        ))}
       </section>
 
     </main>
