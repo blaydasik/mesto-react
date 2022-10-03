@@ -1,51 +1,8 @@
-import { useEffect, useState } from "react";
 import React from "react";
-import workingApi from "../utils/Api";
 import Card from "./Card";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Main(props) {
-
-  //переменные состояния
-  const [cards, setCards] = useState([]);
-
-  //обработчик ошибок в запросе
-  function proceedError(err) {
-    alert(`Ошибка. Запрос не выполнен: ${err}`);
-  }
-
-  //обработчик лайка
-  function handleCardLike(card) {
-    //проверяем, есть ли уже лайк
-    const isLiked = card.likes.some(user => user._id === currentUser._id);
-    //отправим запрос на постановку/удаление лайка
-    workingApi.proceedLike(card._id, isLiked)
-      .then((newCard) => {
-        //обновим массив карточек
-        setCards((state) => state.map((cardItem) => cardItem._id === card._id ? newCard : cardItem));
-      })
-      .catch(proceedError.bind(this));
-  }
-
-  //обработчик удаления карточки
-  function handleCardDelete(card) {
-    workingApi.deleteCard(card._id)
-      .then((filteredCards) => {
-        //обновим массив карточек
-        setCards((state) => state.filter((cardItem) => cardItem._id != card._id));
-      })
-      .catch(proceedError.bind(this));
-  }
-
-  //эффект при монтировании компонента
-  useEffect(() => {
-    //загружаем массив карточек
-    workingApi.downloadCards()
-      .then((cardsData) => {
-        setCards(cardsData);
-      })
-      .catch(proceedError.bind(this));
-  }, []);
 
   //подпишемся на контекст текущего пользователя
   const currentUser = React.useContext(CurrentUserContext);
@@ -66,10 +23,10 @@ function Main(props) {
         <button className="profile__add-button" name="profile__add-button" type="button" onClick={props.onAddPlace} />
       </section>
 
-      //с помощью JSX итерации добавим карточки на страницу
+      {/*с помощью JSX итерации добавим карточки на страницу*/}
       <section className="cards">
-        {cards.map((cardItem) => (
-          <Card key={cardItem._id} card={cardItem} onCardClick={props.onCardClick} onCardLike={handleCardLike} onCardDelete={handleCardDelete} />
+        {props.cards.map((cardItem) => (
+          <Card key={cardItem._id} card={cardItem} onCardClick={props.onCardClick} onCardLike={props.onCardLike} onCardDelete={props.onCardDelete} />
         ))}
       </section>
 

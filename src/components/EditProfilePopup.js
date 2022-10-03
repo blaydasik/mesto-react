@@ -1,5 +1,5 @@
 import PopupWithForm from './PopupWithForm';
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function EditProfilePopup(props) {
@@ -22,7 +22,7 @@ function EditProfilePopup(props) {
     //передаим значения управляемых компонентов во внешний обработчик
     props.onUpdateUser({
       name,
-      about: description,
+      about: description
     });
   }
 
