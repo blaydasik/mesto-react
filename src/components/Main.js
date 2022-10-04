@@ -26,7 +26,13 @@ function Main(props) {
       {/*с помощью JSX итерации добавим карточки на страницу*/}
       <section className="cards">
         {props.cards.map((cardItem) => (
-          <Card key={cardItem._id} card={cardItem} onCardClick={props.onCardClick} onCardLike={props.onCardLike} onCardDelete={props.onCardDelete} />
+          <Card
+            key={cardItem._id}
+            card={cardItem}
+            onCardClick={props.onCardClick}
+            onCardLike={props.onCardLike}
+            onConfirmDelete={props.onConfirmDelete}
+          />
         ))}
       </section>
 

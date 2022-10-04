@@ -1,5 +1,5 @@
 import React from "react";
-import {CurrentUserContext} from "../contexts/CurrentUserContext";
+import { CurrentUserContext } from "../contexts/CurrentUserContext";
 
 function Card(props) {
 
@@ -12,7 +12,7 @@ function Card(props) {
   }
 
   function handleDeleteClick() {
-    props.onCardDelete(props.card);
+    props.onConfirmDelete(props.card);
   }
 
   //подпишемся на контекст текущего пользователя
@@ -22,7 +22,7 @@ function Card(props) {
   const isOwn = props.card.owner._id === currentUser._id;
 
   //определим лайкнута ли карточка текущим пользователем
-  const isLiked = props.card.likes.some( user => user._id === currentUser._id);
+  const isLiked = props.card.likes.some(user => user._id === currentUser._id);
   const cardLikeButtonClassName = `card__button-like ${isLiked ? "card__button-like_active" : ""}`;
 
   return (
@@ -34,7 +34,7 @@ function Card(props) {
         <span className="card__likes-counter">{props.card.likes.length}</span>
       </div>
       {isOwn ? <button className="card__button-delete" name="card__like-button-delete" aria-label='button-delete'
-        type="button" onClick={handleDeleteClick}/> : ""}
+        type="button" onClick={handleDeleteClick} /> : ""}
     </article>
   );
 }

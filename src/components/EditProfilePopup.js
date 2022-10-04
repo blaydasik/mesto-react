@@ -1,42 +1,33 @@
-import PopupWithForm from './PopupWithForm';
-import React, { useState } from "react";
+import PopupWithForm from "./PopupWithForm";
+import React from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import {useForm} from "../hooks/useForm";
 
 function EditProfilePopup(props) {
 
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const {values, handleChange, setValues} = useForm({});
   const currentUser = React.useContext(CurrentUserContext);
 
-  //обработчики
-  function handleNameUpdate(evt) {
-    setName(evt.target.value);
-  }
-
-  function handleJobUpdate(evt) {
-    setDescription(evt.target.value)
-  }
-
+  //обработчик
   function handleSubmit(evt) {
     evt.preventDefault();
     //передаим значения управляемых компонентов во внешний обработчик
     props.onUpdateUser({
-      name,
-      about: description
+      name: values['name'],
+      about: values['about']
     });
   }
 
   //получим данные пользователя в управляемые компоненты
   React.useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
-  }, [currentUser]);
+    setValues(currentUser)
+  }, [currentUser, setValues, props.isOpen]);
 
   return (
     <PopupWithForm
       name="profile"
       title="Редактировать профиль"
-      textOnButton="Сохранить"
+      textOnButton={props.isLoading ? 'Сохранение...' : 'Сохранить'}
       isOpen={props.isOpen}
       onClose={props.onClose}
       onSubmit={handleSubmit}
@@ -50,8 +41,8 @@ function EditProfilePopup(props) {
           minLength="2"
           maxLength="40"
           name="name"
-          value={name || ''}
-          onChange={handleNameUpdate}
+          value={values['name'] || ''}
+          onChange={handleChange}
           required
         />
         <span className="popup__error popup__error_type_name" id="input_type_name-error"></span>
@@ -62,8 +53,8 @@ function EditProfilePopup(props) {
           minLength="2"
           maxLength="200"
           name="about"
-          value={description || ''}
-          onChange={handleJobUpdate}
+          value={values['about'] || ''}
+          onChange={handleChange}
           required
         />
         <span className="popup__error popup__error_type_about" id="input_type_about-error"></span>

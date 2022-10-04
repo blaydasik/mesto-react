@@ -10,19 +10,22 @@ function EditAvatarPopup(props) {
     evt.preventDefault();
     //обновим аватар
     props.onUpdateAvatar(avatarRef.current.value);
-    //и очистим инпут
-    avatarRef.current.value='';
   }
+
+  //очистка инпута при открытии
+  React.useEffect(() => {
+    avatarRef.current.value = '';
+  }, [props.isOpen]);
 
   return (
     <PopupWithForm
       name="update-avatar"
       title="Обновить аватар"
-      textOnButton="Сохранить"
+      textOnButton={props.isLoading ? 'Сохранение...' : 'Сохранить'}
       isOpen={props.isOpen}
       onClose={props.onClose}
       onSubmit={handleSubmit}
-      >
+    >
 
       <label className="popup__label-field">
         <input

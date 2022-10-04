@@ -1,37 +1,30 @@
 import PopupWithForm from './PopupWithForm';
-import { useState } from "react";
+import React from "react";
+import { useForm } from "../hooks/useForm";
 
 function AddPlacePopup(props) {
 
-  const [cardName, setCardName] = useState('');
-  const [cardLink, setCardLink] = useState('');
+  const { values, handleChange, setValues } = useForm({});
 
-  
-  //обработчики
-  function handleCardNameUpdate(evt) {
-    setCardName(evt.target.value);
-  }
-
-  function handleCardLinkUpdate(evt) {
-    setCardLink(evt.target.value)
-  }
-
+  //обработчик
   function handleSubmit(evt) {
     evt.preventDefault();
     props.onAddPlace({
-      name: cardName,
-      link: cardLink
+      name: values['name'],
+      link: values['link']
     });
-    //и очистим инпут
-    setCardName('');
-    setCardLink('');
   }
+
+  //очистка инпутов при открытии
+  React.useEffect(() => {
+    setValues({});
+  }, [props.isOpen, setValues]);
 
   return (
     <PopupWithForm
       name="add-card"
       title="Новое фото"
-      textOnButton="Создать"
+      textOnButton={props.isLoading ? 'Создание...' : 'Создать'}
       isOpen={props.isOpen}
       onClose={props.onClose}
       onSubmit={handleSubmit}
@@ -46,8 +39,8 @@ function AddPlacePopup(props) {
           minLength="2"
           maxLength="30"
           name="name"
-          value={cardName || ''}
-          onChange={handleCardNameUpdate}
+          value={values['name'] || ''}
+          onChange={handleChange}
           required />
         <span className="popup__error popup__error_type_title" id="input_type_title-error"></span>
         <input className="popup__input popup__input_type_link"
@@ -55,8 +48,8 @@ function AddPlacePopup(props) {
           placeholder="Ссылка на картинку"
           type="url"
           name="link"
-          value={cardLink || ''}
-          onChange={handleCardLinkUpdate}
+          value={values['link'] || ''}
+          onChange={handleChange}
           required />
         <span className="popup__error popup__error_type_link" id="input_type_link-error"></span>
       </label>
