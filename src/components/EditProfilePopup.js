@@ -12,10 +12,7 @@ function EditProfilePopup(props) {
   function handleSubmit(evt) {
     evt.preventDefault();
     //передаим значения управляемых компонентов во внешний обработчик
-    props.onUpdateUser({
-      name: values['name'],
-      about: values['about']
-    });
+    props.onUpdateUser(values);
   }
 
   //получим данные пользователя в управляемые компоненты

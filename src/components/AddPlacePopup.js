@@ -9,10 +9,7 @@ function AddPlacePopup(props) {
   //обработчик
   function handleSubmit(evt) {
     evt.preventDefault();
-    props.onAddPlace({
-      name: values['name'],
-      link: values['link']
-    });
+    props.onAddPlace(values);
   }
 
   //очистка инпутов при открытии
