@@ -159,7 +159,7 @@ function App() {
         document.removeEventListener('keydown', closeByEscape);
       }
     }
-  }, [isOpen])//отслеживаем откртыия и закрытия попапов
+  }, [isOpen])//отслеживаем открытия и закрытия попапов
 
   return (
     <div className="page">
